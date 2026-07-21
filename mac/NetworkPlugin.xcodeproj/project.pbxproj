@@ -141,7 +141,6 @@
 				A49186341641DDB800A39286 /* Sources */,
 				A49186381641DDB800A39286 /* Frameworks */,
 				A491863A1641DDB800A39286 /* Headers */,
-				A42BD5801686D85100DC652D /* ShellScript */,
 			);
 			buildRules = (
 				A491863C1641DDB800A39286 /* PBXBuildRule */,
@@ -178,23 +177,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		A42BD5801686D85100DC652D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#\n# Checks exit value for error\n# \ncheckError() {\n    if [ $? -ne 0 ]\n    then\n        echo \"Exiting due to errors (above)\"\n        exit -1\n    fi\n}\n\ncp -v $CONFIGURATION_BUILD_DIR/$FULL_PRODUCT_NAME ../Corona\ncheckError";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		A49186341641DDB800A39286 /* Sources */ = {
