@@ -610,6 +610,7 @@ public class NetworkRequest implements com.naef.jnlua.NamedJavaFunction
 							debug("Calling Lua callback");
 
 							LuaState luaState = runtime.getLuaState();
+							int originalTop = luaState.getTop();
 							CoronaLua.newEvent( luaState, EVENT_NAME);
 							networkRequest.push( luaState );
 							try
@@ -618,19 +619,11 @@ public class NetworkRequest implements com.naef.jnlua.NamedJavaFunction
 							}
 							catch (LuaRuntimeException lre)
 							{
-								// Get the Lua stacktrace into a string so we can log it
-								ByteArrayOutputStream baos = new ByteArrayOutputStream();
-								PrintStream ps = new PrintStream(baos);
-								lre.printLuaStackTrace(ps);
-								String luaStackTrace = baos.toString("UTF8");
-								luaStackTrace = luaStackTrace.replace("com.naef.jnlua.LuaRuntimeException: ", "");
-
-								// The Lua stack is not arranged so that CoronaLuaErrorHandler can
-								// get the error info from it so we have to rearrange it a bit
-								CoronaLuaErrorHandler cleh = new CoronaLuaErrorHandler();
-								luaState.pushString(luaStackTrace);
-								luaState.insert(1);
-								cleh.invoke(luaState);
+								CoronaEnvironment.reportLuaError(luaState, lre);
+							}
+							finally
+							{
+								luaState.setTop(originalTop);
 							}
 
 							if (willUnregister)
